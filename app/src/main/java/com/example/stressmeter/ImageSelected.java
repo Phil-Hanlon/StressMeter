@@ -3,6 +3,7 @@ package com.example.stressmeter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,8 @@ public class ImageSelected extends AppCompatActivity {
         setContentView(R.layout.activity_image_selected);
 
 
+        Resources resources = getResources();
+
         selectedImage = new ImageView(this);
         selectedImageView = new ImageView(this);
 
@@ -28,14 +31,14 @@ public class ImageSelected extends AppCompatActivity {
         // Gets the intent that started this activity
         Intent intent = getIntent();
 
-        Bundle bundle = intent.getExtras();
+        int image_id = intent.getIntExtra("image_id", -1);
 
-        MobileDrawable mobileDrawable = (MobileDrawable)bundle.get("image_drawable");
 
-        selectedImageView.setImageDrawable(mobileDrawable.getDrawable());
+        Drawable drawable = resources.getDrawable(image_id);
 
 
         selectedImageView = findViewById(R.id.selected_image);
-        selectedImageView.setImageDrawable(selectedImage.getDrawable());
+
+        selectedImageView.setImageDrawable(drawable);
     }
 }

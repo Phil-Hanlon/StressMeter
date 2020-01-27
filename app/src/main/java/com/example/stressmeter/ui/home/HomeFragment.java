@@ -2,14 +2,7 @@ package com.example.stressmeter.ui.home;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +16,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.stressmeter.ImageSelected;
-import com.example.stressmeter.MobileDrawable;
 import com.example.stressmeter.R;
 import com.example.stressmeter.ui.gallery.GalleryViewModel;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Random;
@@ -42,6 +32,8 @@ public class HomeFragment extends Fragment {
     ArrayList<ImageView> images_16;
     ImagesAdapter imagesAdapter;
 
+    int[] drawable_ids;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +43,12 @@ public class HomeFragment extends Fragment {
 
         images = new ArrayList<>();
         images_16 = new ArrayList<>();
+
+        // Parallel to "images" array
+        // Contains the id of each drawable
+        drawable_ids = new int[200];
+
+
 
         Resources resources = getContext().getResources();
 
@@ -66,7 +64,10 @@ public class HomeFragment extends Fragment {
 
                     imageView.setImageDrawable(resources.getDrawable(drawables_field.getInt(null)));
 
+
                     images.add(imageView);
+
+                    drawable_ids[images.indexOf(imageView)] = drawables_field.getInt(null);
                 }
 
             catch(Exception e){}
@@ -161,14 +162,9 @@ public class HomeFragment extends Fragment {
 
         Intent intent = new Intent(getActivity(), ImageSelected.class);
 
-        Bundle bundle = new Bundle();
-
         ImageView imageView = (ImageView)view;
 
-
-        bundle.putParcelable("image_drawable", new MobileDrawable(imageView.getDrawable()));
-
-        intent.putExtras(bundle);
+        intent.putExtra("image_id", drawable_ids[images.indexOf(imageView)]);
 
         startActivity(intent);
     }
