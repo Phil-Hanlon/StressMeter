@@ -22,6 +22,7 @@ import com.example.stressmeter.ui.gallery.GalleryViewModel;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class HomeFragment extends Fragment {
 
@@ -30,6 +31,7 @@ public class HomeFragment extends Fragment {
 
     ArrayList<ImageView> images;
     ArrayList<ImageView> images_16;
+    ImagesAdapter imagesAdapter;
 
 
     @Override
@@ -63,13 +65,7 @@ public class HomeFragment extends Fragment {
         }
 
 
-        ArrayList<ImageView> image_bag = images;
-
-        for(int i = 0; i<16; i++ ) {
-
-            images_16.add(image_bag.remove())
-        }
-
+        get_16_images();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -81,6 +77,8 @@ public class HomeFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
+
+        // Sets the text above the grid of images
         final TextView textView = root.findViewById(R.id.text_home);
         galleryViewModel.getText().observe(this, new Observer<String>() {
             @Override
@@ -90,6 +88,16 @@ public class HomeFragment extends Fragment {
         });
 
 
+
+        // Gets 16 new images whenever the "MORE IMAGES" button is clicked
+        root.findViewById(R.id.more_images_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                get_16_images();
+            }
+        });
+
         return root;
     }
 
@@ -97,11 +105,51 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+
         GridView gridView = getActivity().findViewById(R.id.images_grid_view);
 
-        ArrayList<ImageView> images_16 = (ArrayList<ImageView>)images.subList(0, 15);
+        imagesAdapter = new ImagesAdapter(getContext(), images_16);
 
-        ImagesAdapter imagesAdapter = new ImagesAdapter(getContext(), images_16);
         gridView.setAdapter(imagesAdapter);
+    }
+
+
+    // Call to replace the current 16 images
+    private void get_16_images() {
+
+        // Makes a clone of the list of images from which to pull images without repetition
+        ArrayList<ImageView> image_bag = new ArrayList<ImageView>();
+        image_bag = (ArrayList)images.clone();
+
+        Random random = new Random();
+
+
+        images_16.clear();
+
+        // Gets 16 random images (without repeating)
+        for(int i = 0; i<16; i++ ) {
+
+            ImageView imageView = image_bag.remove(random.nextInt(image_bag.size()));
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    imageSelected(v);
+                }
+            });
+
+            images_16.add(imageView);
+        }
+
+        if( imagesAdapter != null ) imagesAdapter.notifyDataSetChanged();
+    }
+
+
+
+    private void imageSelected(View view) {
+
+        
     }
 }
