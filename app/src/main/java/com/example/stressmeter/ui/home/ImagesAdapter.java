@@ -5,25 +5,30 @@ import android.media.Image;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class ImagesAdapter extends BaseAdapter {
 
     private final Context context;
-    private Image[] images;
+    private ArrayList<ImageView> images;
 
 
 
-    public ImagesAdapter(Context context) {
+    public ImagesAdapter(Context context, ArrayList<ImageView> images ) {
 
         this.context = context;
+        this.images = images;
     }
 
 
     @Override
     public int getCount() {
 
-        return images.length;
+        return images.size();
     }
 
 
@@ -42,9 +47,6 @@ public class ImagesAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-
-        TextView textView = new TextView(context);
-        textView.setText(String.valueOf(position));
-        return textView;
+        return images.get(position);
     }
 }
