@@ -1,9 +1,14 @@
 package com.example.stressmeter.ui.home;
 
+import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +21,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.example.stressmeter.ImageSelected;
+import com.example.stressmeter.MobileDrawable;
 import com.example.stressmeter.R;
 import com.example.stressmeter.ui.gallery.GalleryViewModel;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -150,6 +159,17 @@ public class HomeFragment extends Fragment {
 
     private void imageSelected(View view) {
 
-        
+        Intent intent = new Intent(getActivity(), ImageSelected.class);
+
+        Bundle bundle = new Bundle();
+
+        ImageView imageView = (ImageView)view;
+
+
+        bundle.putParcelable("image_drawable", new MobileDrawable(imageView.getDrawable()));
+
+        intent.putExtras(bundle);
+
+        startActivity(intent);
     }
 }
