@@ -8,13 +8,45 @@
 
     <ImageView
         android:id="@+id/selected_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:layout_margin="10dp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
+
+    <LinearLayout
+        android:id="@+id/selected_image_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+
+        app:layout_constraintTop_toBottomOf="@id/selected_image">
+
+
+
+        <Button
+            android:layout_width="190dp"
+            android:layout_height="50dp"
+
+            android:text="CANCEL"
+
+            android:onClick="cancelClicked"/>
+
+
+
+        <Button
+            android:layout_width="190dp"
+            android:layout_height="50dp"
+
+            android:text="SUBMIT"
+
+            android:onClick="submitClicked"/>
+
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

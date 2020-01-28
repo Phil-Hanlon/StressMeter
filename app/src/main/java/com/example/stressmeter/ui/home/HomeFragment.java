@@ -28,11 +28,11 @@ public class HomeFragment extends Fragment {
 
     private GalleryViewModel galleryViewModel;
 
-    ArrayList<ImageView> images;
-    ArrayList<ImageView> images_16;
-    ImagesAdapter imagesAdapter;
+    private ArrayList<ImageView> images;
+    private ArrayList<ImageView> images_16;
+    private ImagesAdapter imagesAdapter;
 
-    int[] drawable_ids;
+    private int[] drawable_ids;
 
 
     @Override
@@ -56,14 +56,11 @@ public class HomeFragment extends Fragment {
 
             if (drawables_field.getName().startsWith("psm")) {
 
-
                 try {
 
                     ImageView imageView = new ImageView(getActivity());
 
-
                     imageView.setImageDrawable(resources.getDrawable(drawables_field.getInt(null)));
-
 
                     images.add(imageView);
 
@@ -166,6 +163,15 @@ public class HomeFragment extends Fragment {
 
         intent.putExtra("image_id", drawable_ids[images.indexOf(imageView)]);
 
-        startActivity(intent);
+
+        startActivityForResult(intent, 1);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        getActivity().finish();
     }
 }

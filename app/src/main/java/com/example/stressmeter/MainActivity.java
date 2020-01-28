@@ -1,5 +1,9 @@
 package com.example.stressmeter;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -17,10 +21,19 @@ import android.view.Menu;
 
 public class MainActivity extends AppCompatActivity {
 
+    private AlarmManager alarmManager;
+    private PendingIntent alarmIntent;
+
+
     private AppBarConfiguration mAppBarConfiguration;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        // Sets the alarm
+        PSMScheduler.setSchedule(this);
+
 
 
         setContentView(R.layout.activity_main);
